@@ -1,0 +1,48 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import javax.imageio.ImageIO;
+import java.io.IOException;
+import java.awt.image.BufferedImage;
+
+public class SlidePuzzle{
+  private BufferedImage master;
+  //private 
+  //Tile[][] tiles;
+  //private Pixel[][] pixels;
+  
+  public SlidePuzzle(int d){
+    if (d == 3)
+    {
+      try {
+        master = ImageIO.read(getClass().getResource("Images/udon.jpg"));
+      }
+      catch (IOException ex) {
+      }
+    }
+    else if (d == 4)
+    {
+      try {
+        master = ImageIO.read(getClass().getResource("Images/sammie.jpg"));
+      }
+      catch (IOException ex) {
+      }
+    }
+    else
+    {
+      try {
+        master = ImageIO.read(getClass().getResource("Images/flower.jpg"));
+      }
+      catch (IOException ex) {
+      }
+    }
+  }
+  
+  public void createPuzzleLayout(Image picture, int sidelength){
+    
+    // for (int i = 0; i < totaltiles; );
+    {
+      
+    }
+  }
+}
