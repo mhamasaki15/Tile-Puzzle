@@ -10,6 +10,10 @@ public class Tile extends JButton{
   private int correctindex;
   private ImageIcon icon;
   
+  public Tile (String title){
+    super();
+  }
+  
   public Tile(BufferedImage img, int current){
     correctindex = current;
     curpic = current;
@@ -35,6 +39,9 @@ public class Tile extends JButton{
     setIcon(newicon);
   }
   
+  public int getCorrect(){
+    return correctindex;
+  }
   
   public void swap(Tile blank){
     int origblankindex = blank.getCurPic();
