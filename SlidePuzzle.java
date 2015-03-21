@@ -5,22 +5,26 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
 import javax.swing.border.LineBorder;
+import java.lang.*;
+
 
 public class SlidePuzzle extends JFrame implements ActionListener{
   private BufferedImage master;
   private Tile[][] tiles;
   private JPanel panel;
   private JButton mixup;
+  private JButton reference;
   private JLabel directions;
-  //private JButton showreference;
-  //Private JButton show numbers.
+  private JButton shownumbers;
+  private JButton reset;
+  private JButton reshuffle;
+  //hIgh scre list
   private JLabel win;
   private JLabel count;
   private int sidelength;
   private int blankindex;
   private Tile nulltile;
   private int movecount = 0;
-  
   
   public SlidePuzzle(int d){
     if (d == 3)
@@ -56,25 +60,43 @@ public class SlidePuzzle extends JFrame implements ActionListener{
     
     
     directions = new JLabel("Click on a tile to slide it into the blank space next to it.");
-    directions.setBounds((d * 101 + 200)/2 - 185,40,500,15);
-    panel.add(directions);
+    directions.setBounds((d * 101 + 200)/2 - 192, 28,500,15);
     
     count = new JLabel("Move count: " + movecount);
-    count.setBounds((d * 101 + 200)/2 - 43, (d * 101) + 100, 200, 30);
+    count.setBounds((d * 101 + 200)/2 - 63, (d * 101) + 73, 200, 20);
     panel.add(count);
     
+    reference = new JButton("Reference Image");
+    reference.setBounds((d * 101 + 200)/2 - 230, (d * 101) + 100, 135, 30);
+    reference.addActionListener(this);
+    panel.add(reference);
+    
+    shownumbers = new JButton("Tile Numbers");
+    shownumbers.setBounds((d * 101 + 200)/2 - 93, (d * 101) + 100, 115, 30);
+    shownumbers.addActionListener(this);
+    panel.add(shownumbers);
+    
+    reset = new JButton("Reset");
+    reset.setBounds((d * 101 + 200)/2 + 25, (d * 101) + 100, 70, 30);
+    reset.addActionListener(this);
+    panel.add(reset);
+    
+    reshuffle = new JButton("Reshuffle");
+    reshuffle.setBounds((d * 101 + 200)/2 + 100, (d * 101) + 100, 100, 30);
+    reshuffle.addActionListener(this);
+    panel.add(reshuffle);
+    
     mixup = new JButton("Click to mix up the puzzle!");//this button hates me
-    mixup.setBounds ((sidelength * 101 + 200)/2 - 100, 65, 200, 20);
+    mixup.setBounds ((sidelength * 101 + 200)/2 - 120, 27, 200, 30);
     mixup.addActionListener(this);
     panel.add(mixup);
     
     
-    
     win = new JLabel();
-    win.setBounds ((d * 101 + 200)/2 - 185, 50, 400, 30);
+    win.setBounds ((d * 101 + 200)/2 - 205, 30, 400, 30);
     
     setTitle("Sliding Tile Puzzle");
-    setSize(d * 101 + 200, d * 101 + 200);
+    setSize(d * 101 + 160, d * 101 + 160);
     setLocationRelativeTo(null);
     setVisible(true);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -93,9 +115,8 @@ public class SlidePuzzle extends JFrame implements ActionListener{
       {
         tiles[row][col] = new Tile(master.getSubimage(col*100, row*100, 100, 100), index);
         index++;   
-        tiles[row][col].setBounds((col+1)*101, (row+1)*101, 100, 100);
+        tiles[row][col].setBounds((col+1)*101 -20, (row+1)*101 - 30, 100, 100);
         tiles[row][col].setBorder(LineBorder.createBlackLineBorder());
-        tiles[row][col].addActionListener(this); //later, put this in a different method so the player cant mix up the tiles before.
         panel.add(tiles[row][col]);
       }      
     }
@@ -122,7 +143,7 @@ public class SlidePuzzle extends JFrame implements ActionListener{
     for (int i = 0; i < 4; i ++)
     {
       if (updownleftright[i].getCurPic() == blankindex){
-        tiles[row][col].swap(updownleftright[i]); 
+        tiles[row][col].swap(updownleftright[i]);
         return true;
       }
     }
@@ -143,10 +164,40 @@ public class SlidePuzzle extends JFrame implements ActionListener{
   }
   
   
+  public void removeButtonListeners(){
+    for (int row = 0; row < sidelength; row ++)
+    {
+      for (int col = 0; col < sidelength; col++)
+      {
+        tiles[row][col].removeActionListener(this);
+      }
+    }
+  }
+  
   public void actionPerformed(ActionEvent e){ //add sound, a way to show the numbers of the tiles, and a way to see the main picture.   
-   
+    
     if (e.getSource() == mixup){
-      System.out.println("sammie");
+      
+      int mixmoves = 0;
+      while (mixmoves <= 400)
+      {
+        if (checkSwitch((int)(Math.random() * sidelength), (int)(Math.random() * sidelength))) 
+        {
+          mixmoves++;         
+        }
+      }
+      for (int row = 0; row < sidelength; row ++)
+      {
+        for (int col = 0; col < sidelength; col++)
+        {
+          tiles[row][col].addActionListener(this); 
+        }
+      }
+      
+      panel.remove(mixup);
+      panel.invalidate();
+      panel.repaint();
+      panel.add(directions);
     }
     
     for (int row = 0; row < sidelength; row ++)
@@ -161,12 +212,12 @@ public class SlidePuzzle extends JFrame implements ActionListener{
           }
           if (checkWin() == true){             
             System.out.println("SDFSDF");
-            panel.remove(mixup);
             panel.remove(directions);
             panel.invalidate();
             panel.repaint();
             win.setText("Congratulations! You solved the puzzle! You took " + movecount + " moves!");
             panel.add(win);
+            removeButtonListeners();
           }
           return;
         }

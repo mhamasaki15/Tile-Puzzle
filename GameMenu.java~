@@ -9,7 +9,7 @@ public class GameMenu extends JFrame implements ActionListener{
   private JButton easy;
   private JButton medium;
   private JButton hard;
-  private int difficulty = 0;
+  private int sidelength = 0;
   
   public GameMenu(){
     {
@@ -19,7 +19,7 @@ public class GameMenu extends JFrame implements ActionListener{
       panel.setLayout(null);
       
       JLabel welcome = new JLabel("Let's solve a puzzle! Please choose a difficulty level.");
-      welcome.setBounds(85,40,500,30);
+      welcome.setBounds(90,40,500,30);
       panel.add(welcome);
       
       easy = new JButton("Easy: 3 x 3");
@@ -73,18 +73,18 @@ public class GameMenu extends JFrame implements ActionListener{
       setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
   }
-  public int gamediff(){
+  public int gridlength(){
     
     
-    return difficulty;
+    return sidelength;
     
   }
   
   public void actionPerformed(ActionEvent e){
-    if (e.getSource() == easy) difficulty = 1;
-    if (e.getSource() == medium) difficulty = 2;
-    if (e.getSource() == hard) difficulty = 3;
-    //System.out.println(difficulty);
+    if (e.getSource() == easy) sidelength = 3;
+    if (e.getSource() == medium) sidelength = 4;
+    if (e.getSource() == hard) sidelength = 5;
+    //System.out.println(sidelength);
     
   }
   

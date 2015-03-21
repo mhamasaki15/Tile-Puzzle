@@ -19,7 +19,7 @@ public class GameMenu extends JFrame implements ActionListener{
       panel.setLayout(null);
       
       JLabel welcome = new JLabel("Let's solve a puzzle! Please choose a difficulty level.");
-      welcome.setBounds(90,40,500,30);
+      welcome.setBounds(90,30,500,30);
       panel.add(welcome);
       
       easy = new JButton("Easy: 3 x 3");
