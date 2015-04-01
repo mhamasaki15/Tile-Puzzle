@@ -5,6 +5,8 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
 
+
+
 public class Tile extends JButton{
   private int curpic;
   private int correctindex;
@@ -46,8 +48,8 @@ public class Tile extends JButton{
     blank.setNewIcon(this.getIcon());
     setCurPic(origblankindex);
     setNewIcon(origblankicon);
-    
-    
+   
+ 
   }
   
 }

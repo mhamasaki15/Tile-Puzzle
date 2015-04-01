@@ -16,6 +16,7 @@ public class SlidePuzzle extends JFrame implements ActionListener{
   private JButton reference;
   private JLabel directions;
   private JButton shownumbers;
+  private boolean shownum;
   private JButton reset;
   private JButton reshuffle;
   //hIgh scre list
@@ -52,6 +53,8 @@ public class SlidePuzzle extends JFrame implements ActionListener{
       }
     }
     
+    shownum = false;
+    
     panel = new JPanel();
     getContentPane().add(panel);    
     panel.setLayout(null);
@@ -67,22 +70,22 @@ public class SlidePuzzle extends JFrame implements ActionListener{
     panel.add(count);
     
     reference = new JButton("Reference Image");
-    reference.setBounds((d * 101 + 200)/2 - 230, (d * 101) + 100, 135, 30);
+    reference.setBounds((d * 101 + 200)/2 - 234, (d * 101) + 100, 135, 30);
     reference.addActionListener(this);
     panel.add(reference);
     
     shownumbers = new JButton("Tile Numbers");
-    shownumbers.setBounds((d * 101 + 200)/2 - 93, (d * 101) + 100, 115, 30);
+    shownumbers.setBounds((d * 101 + 200)/2 - 96, (d * 101) + 100, 115, 30);
     shownumbers.addActionListener(this);
     panel.add(shownumbers);
     
     reset = new JButton("Reset");
-    reset.setBounds((d * 101 + 200)/2 + 25, (d * 101) + 100, 70, 30);
+    reset.setBounds((d * 101 + 200)/2 + 21, (d * 101) + 100, 70, 30);
     reset.addActionListener(this);
     panel.add(reset);
     
     reshuffle = new JButton("Reshuffle");
-    reshuffle.setBounds((d * 101 + 200)/2 + 100, (d * 101) + 100, 100, 30);
+    reshuffle.setBounds((d * 101 + 200)/2 + 95, (d * 101) + 100, 100, 30);
     reshuffle.addActionListener(this);
     panel.add(reshuffle);
     
@@ -174,6 +177,17 @@ public class SlidePuzzle extends JFrame implements ActionListener{
     }
   }
   
+  public void checkShowNumbers(){
+    for (int row = 0; row < sidelength; row ++)
+    {
+      for (int col = 0; col < sidelength; col++)
+      {
+        if (shownum && tiles[row][col].getCurPic() != blankindex) tiles[row][col].setText("" + tiles[row][col].getCurPic());
+        else tiles[row][col].setText("");                
+      }
+    }
+  }
+  
   public void actionPerformed(ActionEvent e){ //add sound, a way to show the numbers of the tiles, and a way to see the main picture.   
     
     if (e.getSource() == mixup){
@@ -198,6 +212,34 @@ public class SlidePuzzle extends JFrame implements ActionListener{
       panel.invalidate();
       panel.repaint();
       panel.add(directions);
+      checkShowNumbers();
+    }
+    
+    
+    if (e.getSource() == reference){
+      JFrame refimage = new JFrame("Reference Image");
+      refimage.setSize(sidelength*100, sidelength*100);
+      //refimage.setLocationRelativeTo(null);
+      
+      JPanel refpanel = new JPanel();      
+      refimage.getContentPane().add(refpanel);    
+      refpanel.setLayout(null); 
+      
+      JLabel refpic = new JLabel();
+      refpic.setBounds(0, 0, sidelength*100, sidelength*100);
+      ImageIcon reficon = new ImageIcon(master);
+      refpic.setIcon(reficon);
+      
+      refpanel.add(refpic);
+      refimage.add(refpanel);
+      
+      refimage.setVisible(true);
+      
+    }
+    
+    if (e.getSource() == shownumbers){
+      shownum = !shownum;
+      checkShowNumbers();
     }
     
     for (int row = 0; row < sidelength; row ++)
@@ -209,6 +251,8 @@ public class SlidePuzzle extends JFrame implements ActionListener{
           if (checkSwitch(row, col) == true){
             movecount++;
             count.setText("Move count: " + movecount);
+            checkShowNumbers();
+            
           }
           if (checkWin() == true){             
             System.out.println("SDFSDF");
