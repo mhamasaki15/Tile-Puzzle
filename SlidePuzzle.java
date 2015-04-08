@@ -11,6 +11,7 @@ import java.lang.*;
 public class SlidePuzzle extends JFrame implements ActionListener{
   private BufferedImage master;
   private Tile[][] tiles;
+  private Tile[][] resettiles;
   private JPanel panel;
   private JButton mixup;
   private JButton reference;
@@ -19,7 +20,6 @@ public class SlidePuzzle extends JFrame implements ActionListener{
   private boolean shownum;
   private JButton reset;
   private JButton reshuffle;
-  //hIgh scre list
   private JLabel win;
   private JLabel count;
   private int sidelength;
@@ -55,13 +55,14 @@ public class SlidePuzzle extends JFrame implements ActionListener{
     
     shownum = false;
     
+    
     panel = new JPanel();
     getContentPane().add(panel);    
     panel.setLayout(null);
     
     createPuzzleLayout(master, d);//add a for loop inside to change the bounds.
     
-    
+    //Text and Buttons
     directions = new JLabel("Click on a tile to slide it into the blank space next to it.");
     directions.setBounds((d * 101 + 200)/2 - 192, 28,500,15);
     
@@ -94,10 +95,10 @@ public class SlidePuzzle extends JFrame implements ActionListener{
     mixup.addActionListener(this);
     panel.add(mixup);
     
-    
     win = new JLabel();
-    win.setBounds ((d * 101 + 200)/2 - 205, 30, 400, 30);
+    win.setBounds ((d * 101 + 200)/2 - 205, 22, 400, 30);
     
+    //JFrame settings
     setTitle("Sliding Tile Puzzle");
     setSize(d * 101 + 160, d * 101 + 160);
     setLocationRelativeTo(null);
@@ -126,6 +127,7 @@ public class SlidePuzzle extends JFrame implements ActionListener{
     tiles[sidelength-1][sidelength-1].setNewIcon(new ImageIcon("/Images/blankicon.jpg"));    
     nulltile = new Tile(master, 0);
     
+    resettiles = new Tile[sidelength][sidelength];
   }
   
   public boolean checkSwitch(int row, int col){
@@ -200,11 +202,13 @@ public class SlidePuzzle extends JFrame implements ActionListener{
           mixmoves++;         
         }
       }
+      
       for (int row = 0; row < sidelength; row ++)
       {
         for (int col = 0; col < sidelength; col++)
         {
           tiles[row][col].addActionListener(this); 
+          resettiles[row][col] = new Tile(tiles[row][col].getIcon(), tiles[row][col].getCurPic());
         }
       }
       
@@ -219,7 +223,6 @@ public class SlidePuzzle extends JFrame implements ActionListener{
     if (e.getSource() == reference){
       JFrame refimage = new JFrame("Reference Image");
       refimage.setSize(sidelength*100, sidelength*100);
-      //refimage.setLocationRelativeTo(null);
       
       JPanel refpanel = new JPanel();      
       refimage.getContentPane().add(refpanel);    
@@ -241,6 +244,43 @@ public class SlidePuzzle extends JFrame implements ActionListener{
       shownum = !shownum;
       checkShowNumbers();
     }
+    //
+    if (e.getSource() == reset){
+      for (int row = 0; row < sidelength; row ++)
+      {
+        for (int col = 0; col < sidelength; col++)
+        {
+          tiles[row][col].setCurPic(resettiles[row][col].getCurPic());
+          tiles[row][col].setNewIcon(resettiles[row][col].getIcon());
+        }
+      }
+      movecount = 0;
+      count.setText("Move count: " + movecount);
+    }
+    
+    
+    if (e.getSource() == reshuffle){
+      
+      int mixmoves = 0;
+      while (mixmoves <= 400)
+      {
+        if (checkSwitch((int)(Math.random() * sidelength), (int)(Math.random() * sidelength))) 
+        {
+          mixmoves++;         
+        }
+      }
+      
+      for (int row = 0; row < sidelength; row ++)
+      {
+        for (int col = 0; col < sidelength; col++)
+        {
+          resettiles[row][col] = new Tile(tiles[row][col].getIcon(), tiles[row][col].getCurPic());
+        }
+      }
+      movecount = 0;
+      count.setText("Move count: " + movecount);
+    }
+    
     
     for (int row = 0; row < sidelength; row ++)
     {
@@ -255,7 +295,6 @@ public class SlidePuzzle extends JFrame implements ActionListener{
             
           }
           if (checkWin() == true){             
-            System.out.println("SDFSDF");
             panel.remove(directions);
             panel.invalidate();
             panel.repaint();

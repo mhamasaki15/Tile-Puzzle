@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.awt.image.BufferedImage;
 
 
-
 public class Tile extends JButton{
   private int curpic;
   private int correctindex;
@@ -14,10 +13,17 @@ public class Tile extends JButton{
 
   
   public Tile(BufferedImage img, int current){
+    setText("");
+    setFont(new Font("Sans Serif", Font.PLAIN, 26));
+    setForeground(Color.WHITE);
+    setHorizontalTextPosition(JButton.CENTER);
+    setVerticalTextPosition(JButton.CENTER);
+    
     correctindex = current;
     curpic = current;
     icon = new ImageIcon(img);
     setIcon(icon);
+
   }
     
   public int getCurPic(){
