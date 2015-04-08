@@ -84,8 +84,15 @@ public class GameMenu extends JFrame implements ActionListener{
     if (e.getSource() == easy) sidelength = 3;
     if (e.getSource() == medium) sidelength = 4;
     if (e.getSource() == hard) sidelength = 5;
-    //System.out.println(sidelength);
+    
+    dispose();
+    SlidePuzzle s = new SlidePuzzle (sidelength);
     
   }
   
-}
+  public static void main(String[] args){
+    
+    GameMenu game = new GameMenu();
+  }
+    
+  }

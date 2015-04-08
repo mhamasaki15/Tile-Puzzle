@@ -45,7 +45,7 @@ public class GameMenu extends JFrame implements ActionListener{
       medium.setBounds(200, 90, 110, 150);
       
       hard = new JButton("Hard: 5 x 5");
-       try {
+      try {
         Image flower = ImageIO.read(getClass().getResource("Images/flowericon.jpg"));
         hard.setIcon(new ImageIcon(flower));
       } catch (IOException ex) {
