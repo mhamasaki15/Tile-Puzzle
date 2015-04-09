@@ -20,8 +20,10 @@ public class SlidePuzzle extends JFrame implements ActionListener{
   private boolean shownum;
   private JButton reset;
   private JButton reshuffle;
+  private JButton newgame;
   private JLabel win;
   private JLabel count;
+  
   private int sidelength;
   private int blankindex;
   private Tile nulltile;
@@ -60,11 +62,11 @@ public class SlidePuzzle extends JFrame implements ActionListener{
     getContentPane().add(panel);    
     panel.setLayout(null);
     
-    createPuzzleLayout(master, d);//add a for loop inside to change the bounds.
+    createPuzzleLayout(master, d);
     
     //Text and Buttons
     directions = new JLabel("Click on a tile to slide it into the blank space next to it.");
-    directions.setBounds((d * 101 + 200)/2 - 192, 28,500,15);
+    directions.setBounds((d * 101 + 200)/2 - 192, 38, 500, 15);
     
     count = new JLabel("Move count: " + movecount);
     count.setBounds((d * 101 + 200)/2 - 63, (d * 101) + 73, 200, 20);
@@ -90,13 +92,19 @@ public class SlidePuzzle extends JFrame implements ActionListener{
     reshuffle.addActionListener(this);
     panel.add(reshuffle);
     
-    mixup = new JButton("Click to mix up the puzzle!");//this button hates me
-    mixup.setBounds ((sidelength * 101 + 200)/2 - 120, 27, 200, 30);
+    newgame = new JButton("Back to Game Menu");
+    newgame.setBounds(d * 101, 7, 150, 30);
+    newgame.addActionListener(this);
+    panel.add(newgame);
+    
+    mixup = new JButton("Click to mix up the puzzle!");
+    mixup.setBounds ((sidelength * 101 + 200)/2 - 120, 38, 200, 30);
     mixup.addActionListener(this);
     panel.add(mixup);
+     
     
     win = new JLabel();
-    win.setBounds ((d * 101 + 200)/2 - 205, 22, 400, 30);
+    win.setBounds ((d * 101 + 200)/2 - 205, 38, 400, 30);
     
     //JFrame settings
     setTitle("Sliding Tile Puzzle");
@@ -252,12 +260,48 @@ public class SlidePuzzle extends JFrame implements ActionListener{
         {
           tiles[row][col].setCurPic(resettiles[row][col].getCurPic());
           tiles[row][col].setNewIcon(resettiles[row][col].getIcon());
+          tiles[row][col].addActionListener(this); 
         }
       }
       movecount = 0;
       count.setText("Move count: " + movecount);
+      panel.remove(win);
+      panel.add(directions);
+      panel.repaint();
     }
     
+    
+    if (e.getSource() == reshuffle){
+      
+      int mixmoves = 0;
+      while (mixmoves <= 400)
+      {
+        if (checkSwitch((int)(Math.random() * sidelength), (int)(Math.random() * sidelength))) 
+        {
+          mixmoves++;         
+        }
+      }
+      
+      for (int row = 0; row < sidelength; row ++)
+      {
+        for (int col = 0; col < sidelength; col++)
+        {
+          resettiles[row][col] = new Tile(tiles[row][col].getIcon(), tiles[row][col].getCurPic());
+          tiles[row][col].addActionListener(this); 
+        }
+      }
+      movecount = 0;
+      count.setText("Move count: " + movecount);
+      panel.remove(win);
+      panel.add(directions);
+      panel.repaint();
+    }
+    
+    if (e.getSource() == newgame){
+      dispose();
+      GameMenu menu = new GameMenu();
+      
+    }
     
     for (int row = 0; row < sidelength; row ++)
     {
