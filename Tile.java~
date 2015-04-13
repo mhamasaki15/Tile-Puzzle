@@ -25,6 +25,11 @@ public class Tile extends JButton{
     setIcon(icon);
 
   }
+  
+  public Tile(ImageIcon imgicon, int current){
+    icon = imgicon;
+    curpic = current;
+  }
     
   public int getCurPic(){
     return curpic;
@@ -45,6 +50,10 @@ public class Tile extends JButton{
   
   public int getCorrect(){
     return correctindex;
+  }
+  
+  public void setCorrect(int correctin){
+    correctindex = correctin;
   }
   
   public void swap(Tile blank){

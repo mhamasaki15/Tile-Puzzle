@@ -12,10 +12,9 @@ public class GameMenu extends JFrame implements ActionListener{
   private int sidelength = 0;
   
   public GameMenu(){
-    {
-      
+    {      
       JPanel panel = new JPanel();
-      getContentPane().add(panel);    
+      add(panel);    
       panel.setLayout(null);
       
       JLabel welcome = new JLabel("Let's solve a puzzle! Please choose a difficulty level.");
@@ -30,9 +29,7 @@ public class GameMenu extends JFrame implements ActionListener{
       }
       easy.setVerticalTextPosition(SwingConstants.BOTTOM); 
       easy.setHorizontalTextPosition(SwingConstants.CENTER);
-      easy.setBounds(80, 90, 110, 150);
-      
-      
+      easy.setBounds(80, 90, 110, 150);            
       
       medium = new JButton("Medium: 4 x 4"); 
       try {
@@ -60,8 +57,7 @@ public class GameMenu extends JFrame implements ActionListener{
       
       panel.add(easy);
       panel.add(medium);
-      panel.add(hard);         
-      
+      panel.add(hard);               
       
       setTitle("Sliding Tile Puzzle");
       setSize(500, 310);
@@ -69,12 +65,6 @@ public class GameMenu extends JFrame implements ActionListener{
       setVisible(true);
       setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
-  }
-  public int gridlength(){
-    
-    
-    return sidelength;
-    
   }
   
   public void actionPerformed(ActionEvent e){
@@ -84,12 +74,9 @@ public class GameMenu extends JFrame implements ActionListener{
     
     dispose();
     SlidePuzzle s = new SlidePuzzle (sidelength);
-    
   }
   
   public static void main(String[] args){
-    
     GameMenu game = new GameMenu();
-  }
-  
+  }  
 }

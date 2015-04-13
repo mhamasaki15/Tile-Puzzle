@@ -11,7 +11,7 @@ public class Tile extends JButton{
   private int correctindex;
   private ImageIcon icon;
 
-  
+  //To create a tile and give it the desired icon.
   public Tile(BufferedImage img, int current){
     setText("");
     setFont(new Font("Sans Serif", Font.PLAIN, 26));
@@ -26,11 +26,13 @@ public class Tile extends JButton{
 
   }
   
+  //For easy tile creation for "resettiles" array.
   public Tile(ImageIcon imgicon, int current){
     icon = imgicon;
     curpic = current;
   }
-    
+  
+  //Get and set methods for slidepuzzle to access
   public int getCurPic(){
     return curpic;
   }
@@ -56,7 +58,7 @@ public class Tile extends JButton{
     correctindex = correctin;
   }
   
-  public void swap(Tile blank){
+  public void swap(Tile blank){//Swaps the icon and index with another tile.
     int origblankindex = blank.getCurPic();
     ImageIcon origblankicon = blank.getIcon();
     blank.setCurPic(this.getCurPic());

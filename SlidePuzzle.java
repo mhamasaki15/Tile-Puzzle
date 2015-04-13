@@ -266,11 +266,12 @@ public class SlidePuzzle extends JFrame implements ActionListener{
     }
     
     if (e.getSource() == newgame){
+      refimage.dispose();
       dispose();
       GameMenu menu = new GameMenu();    
     }
     
-    for (int row = 0; row < sidelength; row ++)
+    for (int row = 0; row < sidelength; row ++) //Loops through all the buttons to check which button was pressed.
     {
       for (int col = 0; col < sidelength; col++)
       {
@@ -280,13 +281,13 @@ public class SlidePuzzle extends JFrame implements ActionListener{
             count.setText("Move count: " + movecount);
             checkShowNumbers();   
           }
-          if (checkWin() == true){             
+          if (checkWin() == true){//If the game is won, the panel is sort of "reset"             
             panel.remove(directions);
             panel.invalidate();
             panel.repaint();
             win.setText("Congratulations! You solved the puzzle! You took " + movecount + " moves!");
             panel.add(win);
-            removeButtonListeners();
+            removeButtonListeners(); //Button Listeners are removed so the player cannot move the tiles.
           }
           return;
         }

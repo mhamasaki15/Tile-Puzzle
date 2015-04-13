@@ -21,6 +21,7 @@ public class GameMenu extends JFrame implements ActionListener{
       welcome.setBounds(90,30,500,30);
       panel.add(welcome);
       
+      //Importing images for Button icons.
       easy = new JButton("Easy: 3 x 3");
       try {
         Image udon = ImageIO.read(getClass().getResource("Images/udonicon.jpg"));
@@ -72,8 +73,8 @@ public class GameMenu extends JFrame implements ActionListener{
     if (e.getSource() == medium) sidelength = 4;
     if (e.getSource() == hard) sidelength = 5;
     
-    dispose();
-    SlidePuzzle s = new SlidePuzzle (sidelength);
+    dispose(); //Closes GameMenu window
+    SlidePuzzle s = new SlidePuzzle (sidelength); //Once the button is pressed, a SlidePuzzle is created
   }
   
   public static void main(String[] args){

@@ -32,6 +32,7 @@ public class SlidePuzzle extends JFrame implements ActionListener{
   private boolean showref = true;
   private int movecount = 0;
   
+  //Choosing image based on size of puzzle
   public SlidePuzzle(int d){
     if (d == 3)
     {
@@ -137,21 +138,21 @@ public class SlidePuzzle extends JFrame implements ActionListener{
       for (int col = 0; col < sidelength; col++)
       {
         tiles[row][col] = new Tile(master.getSubimage(col*100, row*100, 100, 100), index);
-        index++;   
+        index++; //Creating each tile image from the master image  
         tiles[row][col].setBounds((col+1)*101 -20, (row+1)*101 - 30, 100, 100);
         tiles[row][col].setBorder(LineBorder.createBlackLineBorder());
         panel.add(tiles[row][col]);
       }      
     }
-    tiles[sidelength-1][sidelength-1].setNewIcon(new ImageIcon("/Images/blankicon.jpg"));    
+    tiles[sidelength-1][sidelength-1].setNewIcon(new ImageIcon("/Images/blankicon.jpg")); //Making the last tile the blank tile    
     nulltile = new Tile(master, 0);
     
     resettiles = new Tile[sidelength][sidelength];
   }
   
-  public boolean checkSwitch(int row, int col){
+  public boolean checkSwitch(int row, int col){ //Checks to see whether or not the tiles will switch, if they switch, return true
     boolean output = false;
-    Tile[] updownleftright = new Tile[4];
+    Tile[] updownleftright = new Tile[4]; //Array which holds the four adjacent tiles
     if (row - 1 >= 0) updownleftright[0] = tiles[row - 1][col];
     else updownleftright[0] = nulltile;
     
@@ -164,7 +165,7 @@ public class SlidePuzzle extends JFrame implements ActionListener{
     if (col + 1 < sidelength) updownleftright[3] = tiles[row][col + 1];
     else updownleftright[3] = nulltile;
     
-    for (int i = 0; i < 4; i ++)
+    for (int i = 0; i < 4; i ++) //Goes through the array and checks to see if any adjacent tile is the blank tile
     {
       if (updownleftright[i].getCurPic() == blankindex){
         tiles[row][col].swap(updownleftright[i]);
@@ -180,7 +181,7 @@ public class SlidePuzzle extends JFrame implements ActionListener{
     {
       for (int col = 0; col < sidelength; col++)
       {
-        if (tiles[row][col].getCurPic() != tiles[row][col].getCorrect()) output = false;
+        if (tiles[row][col].getCurPic() != tiles[row][col].getCorrect()) output = false; //If any tile doesn't match, the whole thing returns false
       }
     }
     return output;
@@ -207,11 +208,11 @@ public class SlidePuzzle extends JFrame implements ActionListener{
     }
   }
   
-  public void actionPerformed(ActionEvent e){ //add sound, a way to show the numbers of the tiles, and a way to see the main picture.      
+  public void actionPerformed(ActionEvent e){       
     if (e.getSource() == mixup || e.getSource() == reshuffle){
       
       int mixmoves = 0;
-      while (mixmoves <= 400)
+      while (mixmoves <= 400) //Counts 400 moves
       {
         if (checkSwitch((int)(Math.random() * sidelength), (int)(Math.random() * sidelength))) 
         {
@@ -224,7 +225,7 @@ public class SlidePuzzle extends JFrame implements ActionListener{
         for (int col = 0; col < sidelength; col++)
         {
           resettiles[row][col] = new Tile(tiles[row][col].getIcon(), tiles[row][col].getCurPic());
-          tiles[row][col].addActionListener(this); 
+          tiles[row][col].addActionListener(this); //makes the buttons clickable
         }
       }
       movecount = 0;
